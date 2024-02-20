@@ -78,6 +78,7 @@ class _InicioState extends State<Inicio> {
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 177, 134, 6)
                           ),
                         ),
                       ],
