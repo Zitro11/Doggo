@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';//Paquete googlemap
+//import 'package:location/location.dart';  //Paquete para la locacion
+//import 'package:permission_handler/permission_handler.dart'; //paquete para pedir permiso de locacion
 
 class Mapa extends StatefulWidget {
   const Mapa({super.key});
@@ -9,7 +11,47 @@ class Mapa extends StatefulWidget {
 }
 
 class _MapaState extends State<Mapa> {
+  
   late GoogleMapController mapController;
+  /*Location location = Location();
+  late LocationData currentLocation;*/
+
+
+  /*@override
+  void initState() {
+    super.initState();
+    _getLocation();
+    //_requestLocationPermission(); Para los permisos
+  }
+
+  Future<void> _requestLocationPermission() async {
+    var status = await Permission.location.request();
+    if (status.isGranted) {
+      _getLocation();
+    } else {
+      // Permiso denegado, puedes mostrar un mensaje o tomar otra acción
+    }
+  }
+
+  Future<void> _getLocation() async {
+    try {
+      var userLocation = await location.getLocation();
+      setState(() {
+        currentLocation = userLocation;
+      });
+      mapController.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+            target: LatLng(currentLocation.latitude!, currentLocation.longitude!),
+            zoom: 15,
+          ),
+        ),
+      );
+    } catch (e) {
+      print("Error getting location: $e");
+    }
+  }*/
+
 
 
   @override
@@ -28,6 +70,7 @@ class _MapaState extends State<Mapa> {
           target: LatLng(37.7749, -122.4194), // Coordenadas de San Francisco
           zoom: 12.0,
         ),
+        //myLocationEnabled: true,
       ),
     );
   }

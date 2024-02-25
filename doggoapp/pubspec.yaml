@@ -39,6 +39,9 @@ dependencies:
   google_maps_flutter: ^2.5.3
   google_maps_flutter_web: ^0.5.4+3
 
+  #permission_handler: ^10.3.0  #Permisos de la app para locacion
+  location: ^5.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
