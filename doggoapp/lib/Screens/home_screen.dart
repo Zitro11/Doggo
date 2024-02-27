@@ -10,12 +10,13 @@ class Inicio extends StatefulWidget {
 }
 
 class _InicioState extends State<Inicio> {
+  //Para el drawer
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();//Es para acceder al estado del Scaffold desde cualquier parte de la app
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
+      key: scaffoldKey, //para el drawer
       appBar: AppBar(
         title: const Text("Doggo"),
         backgroundColor: Colors.brown.shade100,
@@ -171,6 +172,14 @@ class _InicioState extends State<Inicio> {
           ],
         ),
       ),
+      
+      bottomNavigationBar: BottomNavigationBar(items: const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+        BottomNavigationBarItem(icon: Icon(Icons.notes), label: 'Notes'),
+        BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Mapa')
+      ]),
+
+
     );
   }
 }
