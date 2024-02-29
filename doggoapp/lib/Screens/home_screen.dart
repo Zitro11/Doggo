@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ListView (  //Listview
           children: <Widget>[   //Tiene un hijo que es un arreglo de widgets
 
-            Container(          //Container 1
+            Container(    //Container 1
               padding: const EdgeInsets.all(30.0),
               child: 
               Container(        //Container interior para manipular en tama;o mas peque;o
