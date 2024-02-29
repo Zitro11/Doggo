@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:doggoapp/Screens/screen02.dart'; //Pagina 2
+//Widgets
+import 'package:doggoapp/Widgets/Home/drawer.dart';
+import 'package:doggoapp/Widgets/Home/bottom_navigator_bar.dart';
 
 
-class Inicio extends StatefulWidget {
-  const Inicio({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<Inicio> createState() => _InicioState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _InicioState extends State<Inicio> {
+class _HomeScreenState extends State<HomeScreen> {
   //Para el drawer
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();//Es para acceder al estado del Scaffold desde cualquier parte de la app
 
@@ -141,45 +144,13 @@ class _InicioState extends State<Inicio> {
           ],
         ),
 
-        drawer: Drawer(
-          child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.brown.shade200,
-              ),
-              child: const Text(
-                'Menú',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              title: const Text('Opción 1'),
-              onTap: () {
-                // Implementa la funcionalidad de la opción 1
-              },
-            ),
-            ListTile(
-              title: const Text('Opción 2'),
-              onTap: () {
-                // Implementa la funcionalidad de la opción 2
-              },
-            ),
-          ],
-        ),
-      ),
+        drawer: const BarraLateral(),
       
-      bottomNavigationBar: BottomNavigationBar(items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-        BottomNavigationBarItem(icon: Icon(Icons.notes), label: 'Notes'),
-        BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Mapa')
-      ]),
+      bottomNavigationBar: const BottomNavigatorBarMenu(),
 
 
     );
   }
 }
+
+
