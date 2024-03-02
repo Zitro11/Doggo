@@ -126,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.all(20.0),
               child: ElevatedButton(
                 onPressed:() {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const Mapa()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const ScreenMapa()));
                 },
                 style: (ElevatedButton.styleFrom(
                   primary: const Color.fromARGB(255, 4, 91, 117),
@@ -146,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
         drawer: const BarraLateral(),
       
-      bottomNavigationBar: const BottomNavigatorBarMenu(),
+      //bottomNavigationBar: const BottomNavigatorBarMenu(),
 
 
     );
