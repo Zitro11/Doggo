@@ -144,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
 
-        drawer: const BarraLateral(),
+        //drawer: const BarraLateral(),
       
       //bottomNavigationBar: const BottomNavigatorBarMenu(),
 
