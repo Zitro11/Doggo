@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 
 class BottomNavigatorBarMenu extends StatefulWidget {
-  final ValueChanged<int> onTap; // Agrega este campo
+  final ValueChanged<int> onTap; //on tap que cambia para que cambie el main
 
   const BottomNavigatorBarMenu({
     super.key,
@@ -19,19 +19,12 @@ class _BottomNavigatorBarMenuState extends State<BottomNavigatorBarMenu> {
 
   int indexPaginaActual = 0;  //Inicia con el item 0 seleccionado
 
-  /*void _onTap(index){   //Funcion para cambiar el item seleccionado con el tap
-    setState(() {
-      indexPaginaActual = index;
-    });
-  }*/
-
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       currentIndex: indexPaginaActual,
       items: const <BottomNavigationBarItem>[
       BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-      //BottomNavigationBarItem(icon: Icon(Icons.notes), label: 'Notes'),
       BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Mapa')
       ],
       onTap: (index) {

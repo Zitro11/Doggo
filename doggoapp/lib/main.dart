@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 //Widgets importados
-import 'package:doggoapp/Screens/home_screen.dart'; //Pantalla 1 Home_Screen
-import 'package:doggoapp/Screens/screen02.dart';    //Pantalla 2 Screen02
-import 'package:doggoapp/Widgets/Home/bottom_navigator_bar.dart'; //BtoomBar
+import 'package:doggoapp/Screens/pantalla_inicio.dart'; //Pantalla 1 Home_Screen
+import 'package:doggoapp/Screens/pantalla_mapa.dart';    //Pantalla 2 Screen02
+import 'package:doggoapp/Widgets/bottom_navigator_bar.dart'; //BtoomBar
 
 void main(){
   runApp(const DoggoApp());
@@ -31,8 +31,8 @@ class Main extends StatefulWidget {
 class _MainState extends State<Main> {  //Pantallas
 
   final List<Widget> pantallas = [
-    const HomeScreen(),
-    const ScreenMapa(),
+    const PantallaInicio(),
+    const PantallaMapa(),
   ];
 
   int indexPaginaActual = 0;  //Item seleccionado default (pantalla)
@@ -45,8 +45,9 @@ class _MainState extends State<Main> {  //Pantallas
         index: indexPaginaActual,
         children: pantallas,
       ),
-      bottomNavigationBar: BottomNavigatorBarMenu(
-        onTap: (index){
+      bottomNavigationBar: BottomNavigatorBarMenu
+      (
+        onTap: (index){ //se escucha el ontap de barmenu
           setState(() {
             indexPaginaActual = index;
           });

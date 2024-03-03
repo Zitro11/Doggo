@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:doggoapp/Screens/screen02.dart'; //Pagina 2
+import 'package:doggoapp/Screens/pantalla_mapa.dart'; //Pagina 2
 //Widgets
-import 'package:doggoapp/Widgets/Home/drawer.dart';
-import 'package:doggoapp/Widgets/Home/bottom_navigator_bar.dart';
+import 'package:doggoapp/Widgets/drawer.dart';
+import 'package:doggoapp/Widgets/bottom_navigator_bar.dart';
 
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class PantallaInicio extends StatefulWidget {
+  const PantallaInicio({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<PantallaInicio> createState() => _PantallaInicioState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _PantallaInicioState extends State<PantallaInicio> {
   //Para el drawer
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();//Es para acceder al estado del Scaffold desde cualquier parte de la app
 
@@ -126,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.all(20.0),
               child: ElevatedButton(
                 onPressed:() {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const ScreenMapa()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const PantallaMapa()));
                 },
                 style: (ElevatedButton.styleFrom(
                   primary: const Color.fromARGB(255, 4, 91, 117),
@@ -144,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
 
-        //drawer: const BarraLateral(),
+        drawer: const BarraLateral(),
       
       //bottomNavigationBar: const BottomNavigatorBarMenu(),
 

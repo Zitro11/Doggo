@@ -3,14 +3,14 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';//Paquete googlema
 //import 'package:location/location.dart';  //Paquete para la locacion
 //import 'package:permission_handler/permission_handler.dart'; //paquete para pedir permiso de locacion
 
-class ScreenMapa extends StatefulWidget {
-  const ScreenMapa({super.key});
+class PantallaMapa extends StatefulWidget {
+  const PantallaMapa({super.key});
 
   @override
-  State<ScreenMapa> createState() => _ScreenMapaState();
+  State<PantallaMapa> createState() => _PantallaMapaState();
 }
 
-class _ScreenMapaState extends State<ScreenMapa> {
+class _PantallaMapaState extends State<PantallaMapa> {
   
   late GoogleMapController mapController;
   /*Location location = Location();
