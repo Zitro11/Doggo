@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:doggoapp/Screens/pantalla_mapa.dart'; //Pagina 2
+//import 'package:card_swiper/card_swiper.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
 //Widgets
 import 'package:doggoapp/Widgets/drawer.dart';
-import 'package:doggoapp/Widgets/bottom_navigator_bar.dart';
+
 
 
 class PantallaInicio extends StatefulWidget {
@@ -15,6 +18,17 @@ class PantallaInicio extends StatefulWidget {
 class _PantallaInicioState extends State<PantallaInicio> {
   //Para el drawer
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();//Es para acceder al estado del Scaffold desde cualquier parte de la app
+
+  int indexMonumento = 0; //Identificar el monumento/imagen
+  
+  final urlImages = [   //Imagenes Swider
+    'https://www.infobae.com/new-resizer/JCs2kAWl8JJTof38sUHrj7jHKBc=/992x744/filters:format(webp):quality(85)/s3.amazonaws.com/arc-wordpress-client-uploads/infobae-wp/wp-content/uploads/2017/04/18170301/monumentos-mas-famosos-del-mundo-9.jpg',
+    'https://www.infobae.com/new-resizer/1Wphr5DmlXFEwJcZEMUEcUEHGMs=/992x661/filters:format(webp):quality(85)/s3.amazonaws.com/arc-wordpress-client-uploads/infobae-wp/wp-content/uploads/2017/04/18170254/monumentos-mas-famosos-del-mundo-7.jpg',
+    'https://www.infobae.com/new-resizer/Xu8r72M2iXVhmAndzq81E_KrAII=/992x661/filters:format(webp):quality(85)/s3.amazonaws.com/arc-wordpress-client-uploads/infobae-wp/wp-content/uploads/2017/04/18170326/monumentos-mas-famosos-del-mundo-15.jpg',
+    'https://www.infobae.com/new-resizer/YJMsxGe-c__KFI2YApXBZcFqwPA=/992x661/filters:format(webp):quality(85)/s3.amazonaws.com/arc-wordpress-client-uploads/infobae-wp/wp-content/uploads/2017/04/18170345/monumentos-mas-famosos-del-mundo-21.jpg',
+    'https://www.infobae.com/new-resizer/gK4YQlUzAxZxDzLXCJDanCJf0pc=/992x661/filters:format(webp):quality(85)/s3.amazonaws.com/arc-wordpress-client-uploads/infobae-wp/wp-content/uploads/2017/04/18170417/monumentos-mas-famosos-del-mundo-26.jpg',
+  ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -31,126 +45,52 @@ class _PantallaInicioState extends State<PantallaInicio> {
         ),
       ),
 
-      backgroundColor: Colors.brown.shade400,
-      
+      //backgroundColor: Colors.brown.shade400,
+
+      drawer: const BarraLateral(), //Barra lateral
+
       body:
-        ListView (  //Listview
-          children: <Widget>[   //Tiene un hijo que es un arreglo de widgets
-
-            Container(    //Container 1
-              padding: const EdgeInsets.all(30.0),
-              child: 
-              Container(        //Container interior para manipular en tama;o mas peque;o
-                width: 180,
-                height: 180,
-                color: Colors.brown.shade200,
-                child: Stack(     //Ese container tiene un stack para agregar cosas encima al gusto
-                  children: <Widget>[ //que a su vez tiene un arreglo de widgets 
-                    Column( //Columna para alinear imagen y texto
-                      children: <Widget>[
-                        Padding(    //Imagen
-                          padding: const EdgeInsets.only(top: 20.0),
-                          child: Align(
-                            alignment: Alignment.topCenter,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(40),
-                                child: Image.network(
-                                "https://upload.wikimedia.org/wikipedia/commons/b/b7/Monumento_Fundadores_Nuevo_Laredo.jpg",
-                                width: 80,
-                                height: 80,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const Padding(    //Texto del monumento
-                          padding:  EdgeInsets.only(top: 10),
-                          child: Text(
-                            "Monumento 1",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 177, 134, 6)
-                            ),
-                          )
-                        ),
-                      ],
-                    ),
-                    const Positioned( //Texto abajo a la derecha
-                      bottom: 8.0,
-                      right: 8.0,
-                      child: Text(
-                        "Nvo. Laredo",
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const Positioned( //Icono superior derecha
-                      top: 8.0,
-                      right: 8.0,
-                      child: Icon(
-                        Icons.star,
-                        color: Colors.yellow,
-                        size: 24.0,
-                      ),
-                    ),
-                    const Positioned( //Icono superior izquierda
-                      top: 8.0,
-                      left: 8.0,
-                      child: Icon(
-                        Icons.remove,
-                        color: Colors.red,
-                        size: 24.0,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            Container(    //Container 2
-              padding: const EdgeInsets.all(20.0),
-              child: Image.network("https://i.pinimg.com/originals/ec/4f/37/ec4f3747460ff10af3ef47a67aa0472b.jpg"),
-            ),
-
-            Container(    //Container 3
-              padding: const EdgeInsets.all(20.0),
-              child: Image.network("https://elmanana.com.mx/u/fotografias/m/2022/3/8/f608x342-83798_113521_0.jpg"),
-            ),
-
-            Container(    //Container 4 Boton
-              padding: const EdgeInsets.all(20.0),
-              child: ElevatedButton(
-                onPressed:() {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const PantallaMapa()));
+        Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CarouselSlider.builder(
+                itemCount: urlImages.length,    //se define la cantidad de elementos (array)
+                itemBuilder: (context, index, realIndex){ //Contexto actual de la app || Indice del elemento que se esta construyendo || Indice real del elemento en la lista
+                  final urlImage = urlImages[index];
+                  return buildImage(urlImage, index);
                 },
-                style: (ElevatedButton.styleFrom(
-                  primary: const Color.fromARGB(255, 4, 91, 117),
-                  onPrimary: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50))
-                )),
-                child: const Text(
-                  "Mapa",
-                  style: TextStyle(fontSize: 15)
+                options: CarouselOptions(
+                  height: 400,
+                  onPageChanged: (index, reason) =>
+                    setState(()=>indexMonumento = index)
                 ),
               ),
-            )
-
-          ],
-        ),
-
-        drawer: const BarraLateral(),
+              const SizedBox(height: 12),
+              buildIndicator()
+            ],
+          ),
+        )
       
-      //bottomNavigationBar: const BottomNavigatorBarMenu(),
-
 
     );
   }
-}
 
+  Widget buildImage(String urlImage, int index) =>
+    Container(
+      margin: const EdgeInsets.symmetric(horizontal: 8),
+      child: Image.network(urlImage, fit: BoxFit.cover),
+    );
+
+  Widget buildIndicator() => AnimatedSmoothIndicator(
+    effect: const ExpandingDotsEffect(
+      dotWidth: 15,
+      activeDotColor: Colors.blue
+    ),
+    activeIndex: indexMonumento,
+    count: urlImages.length,
+  );
+
+
+}
 

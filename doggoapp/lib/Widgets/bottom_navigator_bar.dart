@@ -17,19 +17,19 @@ class BottomNavigatorBarMenu extends StatefulWidget {
 
 class _BottomNavigatorBarMenuState extends State<BottomNavigatorBarMenu> {
 
-  int indexPaginaActual = 0;  //Inicia con el item 0 seleccionado
+  int indexItemActual = 0;  //Inicia con el item 0 seleccionado
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      currentIndex: indexPaginaActual,
+      currentIndex: indexItemActual,
       items: const <BottomNavigationBarItem>[
       BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
       BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Mapa')
       ],
       onTap: (index) {
         setState(() {
-          indexPaginaActual = index;
+          indexItemActual = index;
         });
         widget.onTap(index); // Llama a la función onTap pasada como parámetro
       },

@@ -35,21 +35,21 @@ class _MainState extends State<Main> {  //Pantallas
     const PantallaMapa(),
   ];
 
-  int indexPaginaActual = 0;  //Item seleccionado default (pantalla)
+  int indexPantallaActual = 0;  //Item seleccionado default (pantalla)
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       //appBar: AppBar(title: const Text('DOGGO')),
       body: IndexedStack(
-        index: indexPaginaActual,
+        index: indexPantallaActual,
         children: pantallas,
       ),
       bottomNavigationBar: BottomNavigatorBarMenu
       (
         onTap: (index){ //se escucha el ontap de barmenu
           setState(() {
-            indexPaginaActual = index;
+            indexPantallaActual = index;
           });
         }
       ),
