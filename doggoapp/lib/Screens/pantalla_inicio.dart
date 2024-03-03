@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 //import 'package:card_swiper/card_swiper.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:carousel_slider/carousel_slider.dart';  //Carruel
 
 //Widgets
 import 'package:doggoapp/Widgets/drawer.dart';
+import 'package:doggoapp/Widgets/Inicio/build_image.dart';
+import 'package:doggoapp/Widgets/Inicio/build_indicator.dart';
 
 
 
@@ -29,6 +30,22 @@ class _PantallaInicioState extends State<PantallaInicio> {
     'https://www.infobae.com/new-resizer/gK4YQlUzAxZxDzLXCJDanCJf0pc=/992x661/filters:format(webp):quality(85)/s3.amazonaws.com/arc-wordpress-client-uploads/infobae-wp/wp-content/uploads/2017/04/18170417/monumentos-mas-famosos-del-mundo-26.jpg',
   ];
 
+  final titulosMonumentos = [
+    'Coliseo Romano',
+    'Pramides de Giza',
+    'Chichen Itza',
+    'Machu Picchu',
+    'Cataratas del Niagara'
+  ];
+
+  final descripcionMonumentos = [
+    'Coliseo (Roma, Italia)',
+    'Pirámides de Giza (Egipto)',
+    'Chichén Itzá (México)',
+    'Machu Picchu (Perú)',
+    'Cataratas del Niágara (Canadá)'
+  ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -45,52 +62,92 @@ class _PantallaInicioState extends State<PantallaInicio> {
         ),
       ),
 
-      //backgroundColor: Colors.brown.shade400,
+      //backgroundColor: Image.network(urlImages[indexMonumento]),
 
       drawer: const BarraLateral(), //Barra lateral
 
       body:
-        Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CarouselSlider.builder(
-                itemCount: urlImages.length,    //se define la cantidad de elementos (array)
-                itemBuilder: (context, index, realIndex){ //Contexto actual de la app || Indice del elemento que se esta construyendo || Indice real del elemento en la lista
-                  final urlImage = urlImages[index];
-                  return buildImage(urlImage, index);
-                },
-                options: CarouselOptions(
-                  height: 400,
-                  onPageChanged: (index, reason) =>
-                    setState(()=>indexMonumento = index)
-                ),
+        Stack(  //Stack para interponer widgets
+          children: [ //un array de widgets
+            /*Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(urlImages[indexMonumento]),
+                  fit: BoxFit.cover, 
+                  //colorFilter: ColorFilter.mode(Colors.white.withOpacity(0.5), BlendMode.dstATop)
+                )
               ),
-              const SizedBox(height: 12),
-              buildIndicator()
-            ],
-          ),
-        )
+            ),
+            BackdropFilter( //Hacer borrosa la imagen de fondo
+              filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+              child: Container(
+                color: Colors.transparent,
+              ),
+            ),*/
+            Row(    //un renglon para poner el primer texto
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  margin: const EdgeInsets.all(12.0),
+                  child: const Text(
+                    'Una vision al mundo',
+                    style: TextStyle(fontFamily: 'Roboto', fontSize: 20.0, color: Colors.brown),
+                  ),
+                )
+              ],
+            ),
+            Column( //Una columna con un renglon para poder alinear el nombre del monumento
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 90.0),
+                      //decoration: const BoxDecoration(color: Colors.blue),
+                      child: Text(titulosMonumentos[indexMonumento], style: const TextStyle(fontFamily: '', fontSize: 20.0, color: Colors.black),),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Column(     //La columna para posicionar el carouselSlider
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                //const SizedBox(height: 12), // Caja para separar
+                CarouselSlider.builder(
+                    itemCount: urlImages.length,
+                    itemBuilder: (context, index, realIndex){
+                      final urlImage = urlImages[index];
+                      return BuildImageWidget(urlImage: urlImage, index: index);  //Llamamos al widget para crear la imagen
+                    },
+                    options: CarouselOptions(
+                      height: 400,
+                      onPageChanged: (index, reason) =>
+                        setState(()=>indexMonumento = index),
+                    ),
+                  ),
+                const SizedBox(height: 12), // Caja para separar
+                BuildIndicator(indexMonumento: indexMonumento, urlImages: urlImages), // Llamamos al widget indicador visual de la posición de la imagen
+              ]
+            ),
+            Column(   //Columna para poner el texto de la descripcion
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 80.0),
+                      child: Text(descripcionMonumentos[indexMonumento]),
+                    )
+                  ],
+                )
+              ],
+            ),
+          ],
+        ),
       
-
     );
   }
-
-  Widget buildImage(String urlImage, int index) =>
-    Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8),
-      child: Image.network(urlImage, fit: BoxFit.cover),
-    );
-
-  Widget buildIndicator() => AnimatedSmoothIndicator(
-    effect: const ExpandingDotsEffect(
-      dotWidth: 15,
-      activeDotColor: Colors.blue
-    ),
-    activeIndex: indexMonumento,
-    count: urlImages.length,
-  );
-
-
 }
 
