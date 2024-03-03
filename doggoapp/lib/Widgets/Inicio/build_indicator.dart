@@ -5,11 +5,11 @@ class BuildIndicator extends StatelessWidget {
   const BuildIndicator({
     super.key,
     required this.indexMonumento,
-    required this.urlImages,
+    required this.urlImagesLength,
   });
 
   final int indexMonumento;
-  final List<String> urlImages;
+  final int urlImagesLength;
 
   @override
   Widget build(BuildContext context) => AnimatedSmoothIndicator(
@@ -18,6 +18,6 @@ class BuildIndicator extends StatelessWidget {
       activeDotColor: Colors.blue
     ),
     activeIndex: indexMonumento,
-    count: urlImages.length,
+    count: urlImagesLength,
   );
 }

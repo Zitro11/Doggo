@@ -4,8 +4,9 @@ import 'package:carousel_slider/carousel_slider.dart';  //Carruel
 
 //Widgets
 import 'package:doggoapp/Widgets/drawer.dart';
-import 'package:doggoapp/Widgets/Inicio/build_image.dart';
-import 'package:doggoapp/Widgets/Inicio/build_indicator.dart';
+import 'package:doggoapp/Widgets/Inicio/build_image.dart';  //Constructor de los elementos
+import 'package:doggoapp/Widgets/Inicio/build_indicator.dart';  //construtor del indicador
+import 'package:doggoapp/Widgets/Inicio/datos.dart';  //datos de cada elemento
 
 
 
@@ -21,31 +22,7 @@ class _PantallaInicioState extends State<PantallaInicio> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();//Es para acceder al estado del Scaffold desde cualquier parte de la app
 
   int indexMonumento = 0; //Identificar el monumento/imagen
-  
-  final urlImages = [   //Imagenes Swider
-    'https://www.infobae.com/new-resizer/JCs2kAWl8JJTof38sUHrj7jHKBc=/992x744/filters:format(webp):quality(85)/s3.amazonaws.com/arc-wordpress-client-uploads/infobae-wp/wp-content/uploads/2017/04/18170301/monumentos-mas-famosos-del-mundo-9.jpg',
-    'https://www.infobae.com/new-resizer/1Wphr5DmlXFEwJcZEMUEcUEHGMs=/992x661/filters:format(webp):quality(85)/s3.amazonaws.com/arc-wordpress-client-uploads/infobae-wp/wp-content/uploads/2017/04/18170254/monumentos-mas-famosos-del-mundo-7.jpg',
-    'https://www.infobae.com/new-resizer/Xu8r72M2iXVhmAndzq81E_KrAII=/992x661/filters:format(webp):quality(85)/s3.amazonaws.com/arc-wordpress-client-uploads/infobae-wp/wp-content/uploads/2017/04/18170326/monumentos-mas-famosos-del-mundo-15.jpg',
-    'https://www.infobae.com/new-resizer/YJMsxGe-c__KFI2YApXBZcFqwPA=/992x661/filters:format(webp):quality(85)/s3.amazonaws.com/arc-wordpress-client-uploads/infobae-wp/wp-content/uploads/2017/04/18170345/monumentos-mas-famosos-del-mundo-21.jpg',
-    'https://www.infobae.com/new-resizer/gK4YQlUzAxZxDzLXCJDanCJf0pc=/992x661/filters:format(webp):quality(85)/s3.amazonaws.com/arc-wordpress-client-uploads/infobae-wp/wp-content/uploads/2017/04/18170417/monumentos-mas-famosos-del-mundo-26.jpg',
-  ];
-
-  final titulosMonumentos = [
-    'Coliseo Romano',
-    'Pramides de Giza',
-    'Chichen Itza',
-    'Machu Picchu',
-    'Cataratas del Niagara'
-  ];
-
-  final descripcionMonumentos = [
-    'Coliseo (Roma, Italia)',
-    'Pirámides de Giza (Egipto)',
-    'Chichén Itzá (México)',
-    'Machu Picchu (Perú)',
-    'Cataratas del Niágara (Canadá)'
-  ];
-
+  int longitudElementos = elementos.length;
 
   @override
   Widget build(BuildContext context) {
@@ -103,8 +80,8 @@ class _PantallaInicioState extends State<PantallaInicio> {
                   children: [
                     Container(
                       margin: const EdgeInsets.only(top: 90.0),
-                      //decoration: const BoxDecoration(color: Colors.blue),
-                      child: Text(titulosMonumentos[indexMonumento], style: const TextStyle(fontFamily: '', fontSize: 20.0, color: Colors.black),),
+                      //decoration: const BoxDecoration(color: Colors.blue),  //llamamos del objeto el titulo dependiendo la posicion en el array con el index
+                      child: Text(elementos[indexMonumento].titulo, style: const TextStyle(fontFamily: '', fontSize: 20.0, color: Colors.black),),
                     ),
                   ],
                 ),
@@ -115,10 +92,19 @@ class _PantallaInicioState extends State<PantallaInicio> {
               children: [
                 //const SizedBox(height: 12), // Caja para separar
                 CarouselSlider.builder(
-                    itemCount: urlImages.length,
+                    itemCount: elementos.length,  //le decimos la longitud con la cantidad de objetos
                     itemBuilder: (context, index, realIndex){
-                      final urlImage = urlImages[index];
-                      return BuildImageWidget(urlImage: urlImage, index: index);  //Llamamos al widget para crear la imagen
+                      final urlImage = elementos[index].urlImage;   //le especificamos la imagen que se la trae dependiendo el index
+                      return GestureDetector(   //Detector de gestos
+                        onTap: (){    //detectamos el gesto tap
+                          Navigator.push( //Hacemos la navegacion
+                            context,
+                            MaterialPageRoute(builder: (context) => elementos[indexMonumento].screen) //le damos de la lista, la posicion del objeto y la propiedad pantalla
+                          );
+                          print('elemento $indexMonumento presionado');
+                        },
+                        child: BuildImageWidget(urlImage: urlImage, index: index), //Llamamos al widget para crear la imagen
+                      );
                     },
                     options: CarouselOptions(
                       height: 400,
@@ -126,27 +112,29 @@ class _PantallaInicioState extends State<PantallaInicio> {
                         setState(()=>indexMonumento = index),
                     ),
                   ),
-                const SizedBox(height: 12), // Caja para separar
-                BuildIndicator(indexMonumento: indexMonumento, urlImages: urlImages), // Llamamos al widget indicador visual de la posición de la imagen
+                const SizedBox(height: 12), // Caja para separar                                    // Llamamos al widget indicador visual de la posición de la imagen
+                BuildIndicator(indexMonumento: indexMonumento, urlImagesLength: longitudElementos), //Le mandamos el index para q sepa en cual esta y el tama;o para la cantidad
               ]
             ),
-            Column(   //Columna para poner el texto de la descripcion
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 80.0),
-                      child: Text(descripcionMonumentos[indexMonumento]),
-                    )
-                  ],
-                )
-              ],
+            Align(    //Texto de abajo (descripcion)
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                //color: Colors.blue.withOpacity(0.5), // Fondo semitransparente
+                padding: const EdgeInsets.symmetric(horizontal: 30.0),  //separacion del texto con respecto a las orillas
+                margin: const EdgeInsets.only(bottom: 2.0),   //separacion del container de abajo
+                constraints: const BoxConstraints(maxHeight: 130), // Altura máxima del contenedor
+                child: SingleChildScrollView(
+                  child: Text(
+                    elementos[indexMonumento].descripcion,  //le damos la descripcion del objeto seleccionado
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 15.0, color: Colors.black),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
-      
+
     );
   }
 }
