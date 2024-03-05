@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 //import 'package:card_swiper/card_swiper.dart';
 import 'package:carousel_slider/carousel_slider.dart';  //Carruel
+import 'package:flutter/animation.dart';  //Animaciones
 
 //Widgets
 import 'package:doggoapp/Widgets/drawer.dart';
@@ -16,13 +17,28 @@ class PantallaInicio extends StatefulWidget {
   @override
   State<PantallaInicio> createState() => _PantallaInicioState();
 }
-
-class _PantallaInicioState extends State<PantallaInicio> {
+                                                              //Para la animacion
+class _PantallaInicioState extends State<PantallaInicio> with TickerProviderStateMixin {
   //Para el drawer
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();//Es para acceder al estado del Scaffold desde cualquier parte de la app
 
   int indexMonumento = 0; //Identificar el monumento/imagen
-  int longitudElementos = elementos.length;
+  int longitudElementos = elementos.length; //longitud de la lista de objetos
+
+  //variables para la animacion
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+
+  @override
+    void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500), // Duración de la animación (500 milisegundos)
+    );
+    _animation = Tween<double>(begin: 1.0, end: 0.6).animate(_animationController); // Tween para la animación
+  }
+  //Animacion
 
   @override
   Widget build(BuildContext context) {
@@ -95,19 +111,38 @@ class _PantallaInicioState extends State<PantallaInicio> {
                     itemCount: elementos.length,  //le decimos la longitud con la cantidad de objetos
                     itemBuilder: (context, index, realIndex){
                       final urlImage = elementos[index].urlImage;   //le especificamos la imagen que se la trae dependiendo el index
-                      return GestureDetector(   //Detector de gestos
-                        onTap: (){    //detectamos el gesto tap
-                          Navigator.push( //Hacemos la navegacion
-                            context,
-                            MaterialPageRoute(builder: (context) => elementos[indexMonumento].screen) //le damos de la lista, la posicion del objeto y la propiedad pantalla
-                          );
-                          print('elemento $indexMonumento presionado');
+                      return GestureDetector(
+                        onTap: () {
+                          _animationController.forward().then((_) {
+                            // Detener la animación justo antes de navegar a la nueva pantalla
+                            _animationController.stop();
+
+                            // Esperar un breve momento antes de navegar
+                            Future.delayed(const Duration(milliseconds: 500), () {
+                              // Navegar a la siguiente pantalla después de que la animación haya terminado
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => elementos[indexMonumento].screen),
+                              );
+                              
+                            });
+                            // Reiniciar la animación para la próxima vez
+                              _animationController.reset();
+                          });
                         },
-                        child: BuildImageWidget(urlImage: urlImage, index: index), //Llamamos al widget para crear la imagen
+                        child: AnimatedBuilder(
+                          animation: _animationController,
+                          builder: (context, child) {
+                            return Transform.scale(
+                              scale: _animation.value,
+                              child: BuildImageWidget(urlImage: urlImage, index: index),
+                            );
+                          },
+                        ),
                       );
                     },
                     options: CarouselOptions(
-                      height: 400,
+                      height: 380,
                       onPageChanged: (index, reason) =>
                         setState(()=>indexMonumento = index),
                     ),
@@ -121,7 +156,7 @@ class _PantallaInicioState extends State<PantallaInicio> {
               child: Container(
                 //color: Colors.blue.withOpacity(0.5), // Fondo semitransparente
                 padding: const EdgeInsets.symmetric(horizontal: 30.0),  //separacion del texto con respecto a las orillas
-                margin: const EdgeInsets.only(bottom: 2.0),   //separacion del container de abajo
+                margin: const EdgeInsets.only(bottom: 10.0),   //separacion del container de abajo
                 constraints: const BoxConstraints(maxHeight: 130), // Altura máxima del contenedor
                 child: SingleChildScrollView(
                   child: Text(
