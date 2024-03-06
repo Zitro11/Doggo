@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 //Widgets pantallas
-import 'package:doggoapp/Screens/pantalla_inicio.dart'; //para volver
+import 'package:doggoapp/main.dart'; //para volver al main
 import 'package:doggoapp/Screens/pantalla_mapa.dart'; //para mandar al mapa
 import 'package:doggoapp/Widgets/Inicio/datos.dart';  //para traer los datos
 import 'package:doggoapp/Widgets/Elementos/descripcion.dart'; //traer imagenes
@@ -42,7 +42,7 @@ class _ScreenDescripcionState extends State<ScreenDescripcion> {
                               GestureDetector(
                                 onTap: () {
                                   //Get.offAll(HomeScreen());
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const PantallaInicio()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const Main()));
                                 },
                                 child: Container( //Container para la flecha de regreso a Home
                                   height: 40,

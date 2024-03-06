@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 //Widgets importados
 import 'package:doggoapp/Screens/pantalla_inicio.dart'; //Pantalla 1 Home_Screen
-import 'package:doggoapp/Screens/pantalla_mapa.dart';    //Pantalla 2 Screen02
+import 'package:doggoapp/Screens/pantalla_mapa.dart';    //Pantalla 2 
+import 'package:doggoapp/Screens/pantalla_bienvenida.dart';
 import 'package:doggoapp/Widgets/bottom_navigator_bar.dart'; //BtoomBar
 
 void main(){
@@ -16,7 +17,7 @@ class DoggoApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: "Doggo",
-      home: Main(), //Pantalla principal a partir de la cual reparte
+      home: ScreenBienvenida(), //Pantalla principal a partir de la cual reparte
     );
   }
 }
