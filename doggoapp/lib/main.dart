@@ -45,8 +45,7 @@ class _MainState extends State<Main> {  //Pantallas
         index: indexPantallaActual,
         children: pantallas,
       ),
-      bottomNavigationBar: BottomNavigatorBarMenu
-      (
+      bottomNavigationBar: BottomNavigatorBarMenu(
         onTap: (index){ //se escucha el ontap de barmenu
           setState(() {
             indexPantallaActual = index;

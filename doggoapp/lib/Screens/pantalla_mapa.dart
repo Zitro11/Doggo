@@ -67,8 +67,10 @@ class _PantallaMapaState extends State<PantallaMapa> {
           mapController = controller;
         },
         initialCameraPosition: const CameraPosition(
-          target: LatLng(37.7749, -122.4194), // Coordenadas de San Francisco
-          zoom: 12.0,
+          target: LatLng(27.453148, -99.515074), // Coordenadas de San Francisco
+          zoom: 17.0,
+          bearing: 32.0, // Ángulo de orientación en grados (en este caso, 45 grados)
+          tilt: 50.0, // Ángulo de inclinación de la cámara en grados (en este caso, 30 grados)
         ),
         //myLocationEnabled: true,
       ),
