@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';//Paquete googlemap
-//import 'package:location/location.dart';  //Paquete para la locacion
-//import 'package:permission_handler/permission_handler.dart'; //paquete para pedir permiso de locacion
+
 
 class PantallaMapa extends StatefulWidget {
   const PantallaMapa({super.key});
@@ -13,45 +12,29 @@ class PantallaMapa extends StatefulWidget {
 class _PantallaMapaState extends State<PantallaMapa> {
   
   late GoogleMapController mapController;
-  /*Location location = Location();
-  late LocationData currentLocation;*/
 
+    //Conjunto para los Marcadores
+  Set<Marker> markers = {};
+  bool isPanelVisible = false;
 
-  /*@override
-  void initState() {
-    super.initState();
-    _getLocation();
-    //_requestLocationPermission(); Para los permisos
-  }
+  //Metodo para añadir marcadores
+  void _addMarker(double lat, double lng, String title) {
+  final MarkerId markerId = MarkerId(title);
+  final Marker marker = Marker(
+    markerId: markerId,
+    position: LatLng(lat, lng),
+    infoWindow: InfoWindow(title: title),
+    onTap: () { //ontap de cada marcador
+        setState(() {
+          isPanelVisible = true;
+        });
+      },
+  );
 
-  Future<void> _requestLocationPermission() async {
-    var status = await Permission.location.request();
-    if (status.isGranted) {
-      _getLocation();
-    } else {
-      // Permiso denegado, puedes mostrar un mensaje o tomar otra acción
-    }
-  }
-
-  Future<void> _getLocation() async {
-    try {
-      var userLocation = await location.getLocation();
-      setState(() {
-        currentLocation = userLocation;
-      });
-      mapController.animateCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(
-            target: LatLng(currentLocation.latitude!, currentLocation.longitude!),
-            zoom: 15,
-          ),
-        ),
-      );
-    } catch (e) {
-      print("Error getting location: $e");
-    }
-  }*/
-
+  setState(() {
+    markers.add(marker);
+  });
+}
 
 
   @override
@@ -59,20 +42,53 @@ class _PantallaMapaState extends State<PantallaMapa> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Mapa"),
-        backgroundColor: Colors.indigo,
+        backgroundColor: Colors.brown.shade200,
       ),
 
-      body:  GoogleMap(
-        onMapCreated: (controller) {
-          mapController = controller;
-        },
-        initialCameraPosition: const CameraPosition(
-          target: LatLng(27.453148, -99.515074), // Coordenadas de San Francisco
-          zoom: 17.0,
-          bearing: 32.0, // Ángulo de orientación en grados (en este caso, 45 grados)
-          tilt: 50.0, // Ángulo de inclinación de la cámara en grados (en este caso, 30 grados)
-        ),
-        //myLocationEnabled: true,
+      body:  Stack(
+        children: [
+          GoogleMap(
+            onMapCreated: (controller) {
+              mapController = controller;
+              _addMarker(27.4531518769156, -99.51307663563921, 'Estadio');
+              _addMarker(27.451572514753085, -99.51640818270816, 'Campo Baseball');
+            },
+            initialCameraPosition: const CameraPosition(
+              target: LatLng(27.453148, -99.515074),
+              zoom: 17.0,
+              bearing: 28.0, // Ángulo de orientación en grados (en este caso, 45 grados)
+            ),
+            markers: markers,
+            onTap: (LatLng latLng) {
+              // Oculta la barra lateral al tocar cualquier parte del mapa
+              setState(() {
+                isPanelVisible = false;
+              });
+              
+            },
+          ),
+          // Panel lateral con información adicional
+          AnimatedPositioned(
+            bottom: isPanelVisible ? 0 : -200, // Ajusta la posición para que aparezca en la parte inferior
+            left: 0,
+            right: 0,
+            height: 200,
+            duration: const Duration(milliseconds: 300),
+            child: Container(
+              color: Colors.white,
+              child: ListView.builder(
+                itemCount: markers.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(markers.elementAt(index).infoWindow.title ?? ''),
+                    // Puedes agregar más detalles aquí
+                    // como descripciones, imágenes, etc.
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
