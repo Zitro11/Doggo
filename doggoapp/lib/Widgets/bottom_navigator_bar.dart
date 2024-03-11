@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 //Widgets paginas
 
@@ -21,12 +23,21 @@ class _BottomNavigatorBarMenuState extends State<BottomNavigatorBarMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      currentIndex: indexItemActual,
-      items: const <BottomNavigationBarItem>[
-      BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-      BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Mapa')
+    return CurvedNavigationBar(
+      color: Colors.white, //color de la barra
+      backgroundColor: const Color.fromARGB(176, 215, 204, 200),  //color de la burbuja
+      buttonBackgroundColor: Colors.orangeAccent, //color del circulo del item
+      
+      //animacion
+      animationCurve: Curves.fastEaseInToSlowEaseOut,
+      animationDuration: const Duration(milliseconds: 500),
+
+      index: indexItemActual,
+      items: const <Widget>[
+      Icon(Icons.home, size: 30,),
+      Icon(Icons.map, size: 30,),
       ],
+
       onTap: (index) {
         setState(() {
           indexItemActual = index;
